@@ -1,3 +1,4 @@
+import Avatar from "@/components/common/Avatar";
 import Input from "@/components/common/Input";
 import { useStateProvider } from "@/context/StateContext";
 import Image from "next/image";
@@ -5,7 +6,7 @@ import React, { useState } from "react";
 
 function onboarding() {
   const [{ userInfo }] = useStateProvider();
-  
+
   const [name, setName] = useState(userInfo?.name || "");
   const [about, setAbout] = useState("");
   const [image, setImage] = useState("/default_avatar.png");
@@ -22,7 +23,9 @@ function onboarding() {
         <div className="flex flex-col items-center justify-center mt-5 gap-6">
           <Input name="Name" state={name} setState={setName} label />
           <Input name="About" state={about} setState={setAbout} label />
-          <Input name="Display Name" state={image} setState={setImage} label />
+        </div>
+        <div>
+          <Avatar type="xl" image={image} setImage={setImage} />
         </div>
       </div>
     </div>
