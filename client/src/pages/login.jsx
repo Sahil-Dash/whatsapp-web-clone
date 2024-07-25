@@ -6,15 +6,15 @@ import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 function login() {
-
   const router = useRouter();
-  const [{}, dispatch] = useStateProvider();
+  const [{ userInfo, newUser }, dispatch] = useStateProvider();
 
-  
+  useEffect(() => {}, [userInfo, newUser]);
+
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     const {
@@ -37,12 +37,33 @@ function login() {
             },
           });
           router.push("/onboarding");
+        } else {
+          const {
+            id,
+            name,
+            email,
+            profilePicture: profileImage,
+            status,
+          } = data.data;
+          dispatch({
+            type: reducerCases.SET_USER_INFO,
+            userInfo: {
+              id,
+              name,
+              email,
+              profileImage,
+              status,
+            },
+          });
+          router.push("/");
         }
       }
     } catch (error) {
       console.error("Error creating user document: ", error);
     }
   };
+
+  console.log("login :- ", userInfo);
   return (
     <div className="flex justify-center items-center bg-panel-header-background h-screen w-screen flex-col gap-6">
       <div className="flex items-center justify-center gap-2">

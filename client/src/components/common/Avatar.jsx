@@ -4,9 +4,13 @@ import { FaCamera } from "react-icons/fa";
 import ContextMenu from "./ContextMenu";
 import { FcCallback } from "react-icons/fc";
 import PhotoPicker from "./PhotoPicker";
+import PhotoLibrary from "./PhotoLibrary";
+import CapturePhoto from "./CapturePhoto";
 
 function Avatar({ type, image, setImage }) {
   const [grabPhoto, setGrabPhoto] = useState(false);
+  const [showPhotoLibrary, setShowPhotoLibrary] = useState(false);
+  const [showCapturePhoto, setShowCapturePhoto] = useState(false);
   const [hover, setHover] = useState(false);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [contextMenuCoordinates, setContextMenuCoordinates] = useState({
@@ -33,8 +37,18 @@ function Avatar({ type, image, setImage }) {
   }, [grabPhoto]);
 
   const contextMenuOptions = [
-    { name: "Take Photo", callback: () => {} },
-    { name: "Choose From Library", callback: () => {} },
+    {
+      name: "Take Photo",
+      callback: () => {
+        setShowCapturePhoto(true);
+      },
+    },
+    {
+      name: "Choose From Library",
+      callback: () => {
+        setShowPhotoLibrary(true);
+      },
+    },
     {
       name: "Upload Photo",
       callback: () => {
@@ -63,6 +77,7 @@ function Avatar({ type, image, setImage }) {
     }, 100);
   };
 
+  console.log(showCapturePhoto);
   return (
     <>
       <div className="flex items-center justify-center">
@@ -70,8 +85,8 @@ function Avatar({ type, image, setImage }) {
           <div className="relative h-10 w-10">
             <Image
               src={image}
-              height={10}
-              width={10}
+              height={50}
+              width={50}
               alt="avatar"
               className="rounded-full"
             />
@@ -130,6 +145,15 @@ function Avatar({ type, image, setImage }) {
           coordinates={contextMenuCoordinates}
           contextMenu={isContextMenuVisible}
           setContextMenu={setIsContextMenuVisible}
+        />
+      )}
+      {showCapturePhoto && (
+        <CapturePhoto setImage={setImage} hide={setShowCapturePhoto} />
+      )}
+      {showPhotoLibrary && (
+        <PhotoLibrary
+          setPhoto={setImage}
+          hidePhotoLibrary={setShowPhotoLibrary}
         />
       )}
       {grabPhoto && <PhotoPicker onChange={photoPickerChange} />}
