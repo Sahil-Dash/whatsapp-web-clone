@@ -1,10 +1,27 @@
-import React from "react";
+import { useStateProvider } from "@/context/StateContext";
+import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
+import axios from "axios";
+import React, { useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 
 function MessageBar() {
+  const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
+  const [message, setMessage] = useState("");
+  const sendMsg = async () => {
+    try {
+      const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
+        to: currentChatUser.id,
+        from: userInfo.id,
+        message,
+      });
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-panel-header-background h-20 px-4 flex items-center gap-6 relative">
       <div className="flex gap-6">
@@ -23,6 +40,8 @@ function MessageBar() {
           type="text"
           placeholder="Type a message"
           className="bg-input-background text-sm focus:outline-none text-white h-10 rounded-lg px-5 py-4 w-full"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
       </div>
       <div className="flex w-10 items-center justify-center">
@@ -30,6 +49,7 @@ function MessageBar() {
           <MdSend
             className="text-panel-header-icon cursor-pointer text-xl"
             title="send msg"
+            onClick={sendMsg}
           />
           {/* <FaMicrophone
             className="text-panel-header-icon cursor-pointer text-xl"
