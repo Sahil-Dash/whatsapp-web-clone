@@ -1,11 +1,15 @@
 import { useStateProvider } from "@/context/StateContext";
 import { calculateTime } from "@/utils/CalculateTime";
-import React from "react";
+import React, { useEffect } from "react";
 import MessageStatus from "../common/MessageStatus";
+import ImageMessage from "./ImageMessage";
 
 function ChatContainer() {
   const [{ messages, currentChatUser, userInfo }] = useStateProvider();
-  console.log(messages);
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   return (
     <div className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar">
@@ -19,7 +23,7 @@ function ChatContainer() {
             <div
               key={message.id}
               className={`flex items-center gap-2 text-sm ${
-                message.senderId === currentChatUser.id
+                message.senderId && message.senderId === currentChatUser.id
                   ? "justify-start"
                   : "justify-end"
               }`}
@@ -27,7 +31,7 @@ function ChatContainer() {
               {message.type === "text" && (
                 <div
                   className={`text-white px-4 mx-10 py-[5px] text-sm rounded-md flex gap-2 iteme max-w-[45%] ${
-                    message.senderId === currentChatUser.id
+                    message.senderId && message.senderId === currentChatUser.id
                       ? "bg-incoming-background"
                       : "bg-outgoing-background"
                   }`}
@@ -45,6 +49,7 @@ function ChatContainer() {
                   </div>
                 </div>
               )}
+              {message.type === "image" && <ImageMessage message={message} />}
             </div>
           ))}
         </div>
