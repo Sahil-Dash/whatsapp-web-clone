@@ -18,7 +18,7 @@ function ChatContainer() {
       </div>
       <div className="bg-chat-background bg-fixed h-full w-full opacity-5 fixed left-0 top-0 z-0"></div>
       <div className="flex w-full">
-        <div className="flex flex-col justify-end w-full ga-1 overflow-auto">
+        <div className="flex flex-col justify-end w-full pb-2 gap-1 overflow-auto">
           {messages.map((message, index) => (
             <div
               key={message.id}
