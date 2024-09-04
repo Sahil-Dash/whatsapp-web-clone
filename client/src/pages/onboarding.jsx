@@ -13,6 +13,8 @@ function onboarding() {
   const router = useRouter();
 
   const [name, setName] = useState(userInfo?.name || "");
+  const [userName, setUserName] = useState(userInfo?.userName || "");
+
   const [about, setAbout] = useState("");
   const [image, setImage] = useState("/default_avatar.png");
 
@@ -29,6 +31,7 @@ function onboarding() {
         const { data } = await axios.post(ONBOARD_USER_ROUTE, {
           email,
           name,
+          userName,
           about,
           image,
         });
@@ -41,6 +44,7 @@ function onboarding() {
             userInfo: {
               id: data.user.id,
               name,
+              userName,
               email,
               profileImage: image,
               status: about,
@@ -59,6 +63,10 @@ function onboarding() {
       alert("Name should be at least 3 characters long");
       return false;
     }
+    if (userName.length < 3) {
+      alert("User Name should be at least 3 characters long");
+      return false;
+    }
     return true;
   };
 
@@ -74,6 +82,13 @@ function onboarding() {
       <div className="flex gap-6 mt-6">
         <div className="flex flex-col items-center justify-center mt-5 gap-6">
           <Input name="Name" state={name} setState={setName} label />
+          <Input
+            name="UserName"
+            state={userName}
+            setState={setUserName}
+            label
+          />
+
           <Input name="About" state={about} setState={setAbout} label />
           <div className="flex items-center justify-center">
             <button

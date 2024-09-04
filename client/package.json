@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@zegocloud/zego-uikit-prebuilt": "^2.6.2",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "emoji-picker-react": "^4.4.9",

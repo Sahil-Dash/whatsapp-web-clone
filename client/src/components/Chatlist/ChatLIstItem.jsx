@@ -15,6 +15,7 @@ function ChatLIstItem({ data, isContactsPage = false }) {
         type: reducerCases.CHANGE_CURRENT_CHAT_USER,
         user: {
           name: data.name,
+          userName: data.userName,
           about: data.about,
           profilePicture: data.profilePicture,
           email: data.email,
@@ -41,7 +42,7 @@ function ChatLIstItem({ data, isContactsPage = false }) {
       <div className="min-h-full flex flex-col justify-center mt-3 pr-2 w-full">
         <div className="flex justify-between">
           <div>
-            <span className="text-white">{data.name}</span>
+            <span className="text-white">{data.userName}</span>
           </div>
           {!isContactsPage && (
             <div>
